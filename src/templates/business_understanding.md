@@ -76,3 +76,29 @@ The project utilizes a state-of-the-art **Random Forest Regressor** ensemble mod
 
 ### 4.3 Mitigation and Continuous Monitoring Protocols
 To counter these systemic risks, the project framework outlines a continuous evaluation pipeline. The predictive errors—specifically **Mean Absolute Error (MAE)** and **R-squared ($R^2$)** metrics—will be programmatically audited at the end of each academic semester. If a degradation in accuracy exceeds a pre-set threshold of 15%, an automated re-training trigger will execute to capture new operational trends from the source data.
+
+# Phase 2 & 3: Data Engineering & Model Specification
+
+## 1. Data Cleaning Pipeline
+The ingestion process standardizes raw public records from `datos.gov.co` through automated data quality gates:
+* **Literal Cleansing:** Stripping recursive quote wrappers (`""`) and formatting string anomalies in categorical inputs.
+* **Temporal Alignment:** Standardizing text timestamps into strict ISO-8601 date objects to handle `FECHA_INICIO_FICHA` and `FECHA_TERMINACION_FICHA`.
+* **Feature Engineering:** Deriving `DURATION_DAYS` through vector subtraction of academic lifecycles, isolating erroneous records with negative duration values.
+
+## 2. Model Architecture
+* **Algorithm:** Random Forest Regressor (Ensemble Learning).
+* **Feature Scope:** One-Hot Encoded regional indicators, programmatic operational levels, continuous cohort group sizes, and localized timeline limits.
+* **Target Optimization:** Minimizing Mean Absolute Error (MAE) through systematic bootstrap aggregation trees.
+
+# Phase 5 & 6: Deployment, MLOps & Monitoring
+
+## 1. Production Architecture
+The intelligent framework is decoupled into a microservices architecture hosted on **Render cloud infrastructure**:
+* **Presentation Layer:** Lightweight client UI managed through Streamlit Channels.
+* **Service Layer:** `predictor_service.py` handles input tensor reshaping, schema verification, and model asset loading.
+* **Artifact Storage:** Serialized pipeline states managed via byte-compiled `joblib` formats.
+
+## 2. Lifecycle Monitoring & Model Drift
+To maintain prediction integrity against academic concept shifts:
+* **Evaluation Windows:** Logged inferences are audited semestral against true administrative closing marks.
+* **Retraining Blueprint:** If prediction degradation spikes performance errors beyond 15% MAE, a web-hook triggers a clean automated retraining cycle using updated open-data packages.
