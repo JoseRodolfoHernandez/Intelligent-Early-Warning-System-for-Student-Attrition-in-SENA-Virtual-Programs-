@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="mb-4 text-sena">Phase 1: Business Understanding</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card p-4 shadow">
+            <h3> Problem Context & Description</h3>
+            <p>The Servicio Nacional de Aprendizaje (SENA) manages virtual learning programs nationwide. E-learning environments experience high student attrition rates due to technological barriers, asymmetric internet bandwidth, and low initial digital literacy. This creates a decoupling between the learner and the institution, causing premature abandonment of courses.</p>
+        </div>
+
+        <div class="card p-4 shadow">
+            <h3> Business Objectives & Expected Impact</h3>
+            <ul>
+                <li><strong>Resource Optimization:</strong> Shift from a reactive administrative posture to a proactive intervention model, allowing tutors to focus retention strategies on the top 20% highest-risk cohorts.</li>
+                <li><strong>Capacity Management:</strong> Mitigate the financial and operational impact caused by mass dropouts in virtual programs, ensuring better public fund utilization.</li>
+            </ul>
+        </div>
+
+        <div class="card p-4 shadow">
+            <h3> Key Research Questions</h3>
+            <ol>
+                <li>Is there a direct correlation between the scheduled duration of a course (in days) and its final attrition rate?</li>
+                <li>Which SENA regionals show higher historical vulnerability to student dropouts in virtual environments?</li>
+                <li>Does the group size (Total Enrolled Students) act as an operational bottleneck that triggers systemic dropouts?</li>
+            </ol>
+        </div>
+
+        <div class="card p-4 shadow">
+            <h3>Project Feasibility, Risks & Limitations</h3>
+            <p><strong>Technical Feasibility:</strong> High. Ensemble learning algorithms can efficiently handle mixed data types and high-cardinality categorical strings (like SENA regionals).</p>
+            <p><strong>Limitations:</strong> The data relies purely on administrative macro-features. It lacks fine-grained individual student metrics (e.g., socioeconomic stratum, daily platform log frequencies) due to strict data privacy regulations.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

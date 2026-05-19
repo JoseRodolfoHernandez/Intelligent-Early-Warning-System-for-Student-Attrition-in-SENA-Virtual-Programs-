@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="mb-4 text-sena">Phase 2: Data Understanding</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card p-4 shadow">
+            <h3>Dataset Selection & Lineage</h3>
+            <p>The historical records are sourced directly from the <strong>Colombian Open Data Portal (datos.gov.co)</strong>, specifically the official dataset cataloging the <em>Deserción de la Formación Profesional Integral del SENA</em>. The target pipeline isolates records where <code>MODALIDAD_FORMACION == 'VIRTUAL'</code> to satisfy statistical parameters (minimum 1,000 comprehensive records).</p>
+        </div>
+
+        <div class="card p-4 shadow">
+            <h3>Exploratory Data Analysis & Quality Audit</h3>
+            <ul>
+                <li><strong>Variable Analysis:</strong> Features include categorical dimensions (SENA Regionals, Training Levels) and numerical inputs (Total Enrolled Students).</li>
+                <li><strong>Data Quality Evaluation:</strong> The initial audit detected nested double quotes (e.g., <code>""VIRTUAL""</code>) and erratic trailing whitespaces that required systematic parsing.</li>
+                <li><strong>Statistical Summaries:</strong> The group size distributions and timeline limits were evaluated using standard skewness boundaries to locate historical variance.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

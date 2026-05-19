@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="mb-4 text-sena">Phase 3: Data Engineering</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card p-4 shadow">
+            <h3>Data Cleaning & Wrangling Pipeline</h3>
+            <p>The automated data preparation script filters and cleans corrupt string literals, standardizing the text tokens into neat categorical arrays.</p>
+        </div>
+
+        <div class="card p-4 shadow">
+            <h3>Feature Engineering & Transformations</h3>
+            <ul>
+                <li><strong>Temporal Math:</strong> Date fields (<code>FECHA_INICIO_FICHA</code>) were converted into datetime objects to mathematically compute continuous active time values (<code>DURATION_DAYS</code>).</li>
+                <li><strong>Categorical Encoding:</strong> Features like <code>NOMBRE_REGIONAL</code> and <code>NIVEL_FORMACION</code> are mapped through categorical processing to serve as matrix inputs for model aggregations.</li>
+                <li><strong>Target Variable Synthesis:</strong> The dependent variable (Attrition Rate) was engineered by computing the ratio of dropped-out records against total initial course registration.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
