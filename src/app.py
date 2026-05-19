@@ -1,50 +1,27 @@
-import streamlit as st
+from flask import Flask, render_template
 import os
-from streamlit_option_menu import option_menu
-from predictor_service import run_prediction_ui
 
-# 1. Page Configuration
-st.set_page_config(page_title="SENA Core Analytics", page_icon="🎓", layout="wide")
+app = Flask(__name__, template_folder='../templates')
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECT_ROOT = os.path.dirname(BASE_DIR)
+# ROUTE 1: Home Menu
+@app.route('/')
+def home():
+    return render_template('home.html')
 
-# 2. Main Navigation Menu & Submenus (Sidebar Architecture)
-with st.sidebar:
-    st.markdown("## ⚙️ Core Navigation")
-    selected_menu = option_menu(
-        menu_title="Project Lifecycle",
-        options=["Prediction Engine", "Business Framework", "Data & Modeling", "MLOps & Deployment"],
-        icons=["cpu", "briefcase", "bezier2", "cloud-arrow-up"],
-        menu_icon="cast",
-        default_index=0,
-        styles={
-            "container": {"padding": "5px!", "background-color": "#1e222b"},
-            "icon": {"color": "#00ffcc", "font-size": "18px"}, 
-            "nav-link": {"font-size": "14px", "text-align": "left", "margin":"0px", "--hover-color": "#282c34"},
-            "nav-link-selected": {"background-color": "#00a381"},
-        }
-    )
+# ROUTE 2: Phase 1 - Business Understanding
+@app.route('/business-understanding')
+def business_understanding():
+    return render_template('business.html')
 
-# 3. ROUTER CHANNELS (Executing paths based on selection)
-if selected_menu == "Prediction Engine":
-    # Route to Core Predictive Microservice
-    run_prediction_ui()
+# ROUTE 3: Phase 2 - Data Understanding
+@app.route('/data-understanding')
+def data_understanding():
+    return render_template('understanding.html')
 
-elif selected_menu == "Business Framework":
-    # Route to Business Understanding Specification
-    template_path = os.path.join(PROJECT_ROOT, 'templates', 'business_understanding.md')
-    with open(template_path, 'r', encoding='utf-8') as file:
-        st.markdown(file.read())
+# ROUTE 4: Phase 3 - Data Engineering
+@app.route('/data-engineering')
+def data_engineering():
+    return render_template('engineering.html')
 
-elif selected_menu == "Data & Modeling":
-    # Route to Data Engineering Documentation
-    template_path = os.path.join(PROJECT_ROOT, 'templates', 'data_preparation.md')
-    with open(template_path, 'r', encoding='utf-8') as file:
-        st.markdown(file.read())
-
-elif selected_menu == "MLOps & Deployment":
-    # Route to Infrastructure & Monitoring Protocols
-    template_path = os.path.join(PROJECT_ROOT, 'templates', 'deployment_monitoring.md')
-    with open(template_path, 'r', encoding='utf-8') as file:
-        st.markdown(file.read())
+if __name__ == '__main__':
+    app.run(debug=True)
