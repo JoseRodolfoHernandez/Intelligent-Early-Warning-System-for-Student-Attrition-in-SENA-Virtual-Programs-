@@ -1,20 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 class="mb-4 text-sena">Phase 3: Data Engineering</h1>
+<h1 class="mb-4 text-sena">Phase 3: Data Engineering Pipeline</h1>
 <div class="row">
     <div class="col-md-12">
-        <div class="card p-4 shadow">
-            <h3>Data Cleaning & Wrangling Pipeline</h3>
-            <p>The automated data preparation script filters and cleans corrupt string literals, standardizing the text tokens into neat categorical arrays.</p>
+        <div class="card p-4 mb-4 shadow">
+            <h3> Data Cleaning & Structural Handling</h3>
+            <p>To eliminate processing bottlenecks during model execution, the pipeline implements automated cleaning layers:</p>
+            <ul>
+                <li><strong>Token Sanitization:</strong> String fields were stripped of recursive string modifiers (such as double quotation wrappers <code>""VIRTUAL""</code>) using vector text utilities.</li>
+                <li><strong>Temporal Conversions:</strong> Date parameters (<code>FECHA_INICIO_FICHA</code> and <code>FECHA_TERMINACION_FICHA</code>) were parsed into true standard date tokens.</li>
+            </ul>
         </div>
 
-        <div class="card p-4 shadow">
-            <h3>Feature Engineering & Transformations</h3>
+        <div class="card p-4 mb-4 shadow">
+            <h3> Feature Preparation & Transformations</h3>
             <ul>
-                <li><strong>Temporal Math:</strong> Date fields (<code>FECHA_INICIO_FICHA</code>) were converted into datetime objects to mathematically compute continuous active time values (<code>DURATION_DAYS</code>).</li>
-                <li><strong>Categorical Encoding:</strong> Features like <code>NOMBRE_REGIONAL</code> and <code>NIVEL_FORMACION</code> are mapped through categorical processing to serve as matrix inputs for model aggregations.</li>
-                <li><strong>Target Variable Synthesis:</strong> The dependent variable (Attrition Rate) was engineered by computing the ratio of dropped-out records against total initial course registration.</li>
+                <li><strong>Categorical Encoding:</strong> Implemented <code>One-Hot Encoding</code> mechanisms on high-cardinality values, producing binary column expansions to support algorithmic calculations.</li>
+                <li><strong>Feature Synthesis:</strong> Created the continuous independent feature <span class="badge badge-tech">DURATION_DAYS</span> via vector date subtraction to isolate mathematical timeline variations.</li>
+                <li><strong>Target Formulation:</strong> Synthesized the target continuous response parameter <span class="badge badge-tech">ATTRITION_RATE</span> by evaluating active dropouts relative to initial group registration.</li>
             </ul>
         </div>
     </div>
