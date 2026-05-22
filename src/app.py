@@ -1,6 +1,10 @@
-from flask import Flask, render_template, request
 import os
-from predictor_service import make_prediction
+import sys
+from flask import Flask, render_template, request
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from src.predictor_service import make_prediction
 
 src_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(src_dir)
@@ -24,17 +28,14 @@ def data_understanding():
 def data_engineering():
     return render_template('engineering.html')
 
-# NEW MENU: Model Engineering
 @app.route('/model-engineering')
 def model_engineering():
     return render_template('modeling.html')
 
-# NEW MENU: Model Evaluation
 @app.route('/model-evaluation')
 def model_evaluation():
     return render_template('evaluation.html')
 
-# CRITICAL NEW MENU: Prediction System (Handles GET and POST)
 @app.route('/prediction-system', methods=['GET', 'POST'])
 def prediction_system():
     result = None
@@ -47,7 +48,6 @@ def prediction_system():
                 'TOTAL_APRENDICES_MATRICULADOS': request.form.get('matriculados'),
                 'DURATION_DAYS': request.form.get('duration')
             }
-            # Execute backend prediction logic
             result = make_prediction(form_data)
         except Exception as e:
             result = {"error": f"Form parsing failure: {str(e)}"}
