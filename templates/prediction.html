@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="mb-4 text-sena">Phase 6: Real-Time Attrition Prediction System</h1>
+<p class="text-muted">Input cohort administrative metrics manually to compute the mathematical probability of premature student dropout.</p>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card p-4 shadow-sm">
+            <h3>📋 Cohort Parameters Input</h3>
+            <form action="/prediction-system" method="POST" class="mt-3">
+                <div class="mb-3">
+                    <label for="regional" class="form-label">SENA Regional Center</label>
+                    <select class="form-select bg-dark text-white border-secondary" id="regional" name="regional" required>
+                        <option value="CUNDINAMARCA" {% if form.NOMBRE_REGIONAL == 'CUNDINAMARCA' %}selected{% endif %}>Cundinamarca</option>
+                        <option value="DISTRITO CAPITAL" {% if form.NOMBRE_REGIONAL == 'DISTRITO CAPITAL' %}selected{% endif %}>Distrito Capital</option>
+                        <option value="ANTIOQUIA" {% if form.NOMBRE_REGIONAL == 'ANTIOQUIA' %}selected{% endif %}>Antioquia</option>
+                        <option value="CHOCO" {% if form.NOMBRE_REGIONAL == 'CHOCO' %}selected{% endif %}>Chocó</option>
+                        <option value="AMAZONAS" {% if form.NOMBRE_REGIONAL == 'AMAZONAS' %}selected{% endif %}>Amazonas</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="nivel" class="form-label">Training Level Tier</label>
+                    <select class="form-select bg-dark text-white border-secondary" id="nivel" name="nivel" required>
+                        <option value="TECNOLOGO" {% if form.NIVEL_FORMACION == 'TECNOLOGO' %}selected{% endif %}>Tecnólogo</option>
+                        <option value="TECNICO" {% if form.NIVEL_FORMACION == 'TECNICO' %}selected{% endif %}>Técnico</option>
+                        <option value="COMPLEMENTARIA" {% if form.NIVEL_FORMACION == 'COMPLEMENTARIA' %}selected{% endif %}>Complementaria Virtual</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="matriculados" class="form-label">Total Enrolled Students (Initial Class Volume)</label>
+                    <input type="number" class="form-control bg-dark text-white border-secondary" id="matriculados" name="matriculados" min="1" max="150" value="{{ form.TOTAL_APRENDICES_MATRICULADOS or 30 }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="duration" class="form-label">Program Scheduled Duration (Days)</label>
+                    <input type="number" class="form-control bg-dark text-white border-secondary" id="duration" name="duration" min="10" max="1000" value="{{ form.DURATION_DAYS or 180 }}" required>
+                </div>
+
+                <button type="submit" class="btn btn-success w-100" style="background-color: #39a900; border: none; font-weight: bold;">Run Model Inference</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card p-4 shadow-sm h-100 d-flex flex-column justify-content-center border-secondary" style="background-color: #161925;">
+            <h3 class="text-center">🎯 Inference Engine Output</h3>
+            
+            {% if result %}
+                {% if result.error %}
+                    <div class="alert alert-danger text-center" role="alert">
+                        <strong>Operational Failure:</strong> {{ result.error }}
+                    </div>
+                {% else %}
+                    <div class="text-center my-4">
+                        <h4 class="text-muted text-uppercase">Risk Assessment Status</h4>
+                        <span class="badge bg-{{ result.status_color }} fs-2 px-4 py-2 mt-2">
+                            {{ result.classification }}
+                        </span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label d-flex justify-content-between">
+                            <span>Statistical Confidence Probability:</span>
+                            <strong>{{ result.probability }}%</strong>
+                        </label>
+                        <div class="progress" style="height: 25px; background-color: #23293e;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-{{ result.status_color }}" 
+                                 role="progressbar" 
+                                 style="width: {{ result.probability }}%;" 
+                                 aria-valuenow="{{ result.probability }}" 
+                                 aria-valuemin="0" 
+                                 aria-valuemax="100">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="small text-muted mt-3 text-justify">
+                        *This real-time calculation operates on internal algorithmic weight distributions mapped during the CRISP-ML deployment lifecycle. Proactive intervention strategies should target cohorts displaying validation status above 35%.
+                    </p>
+                {% endif %}
+            {% else %}
+                <div class="text-center py-5">
+                    <p class="text-muted fs-5">Awaiting submission parameters... Fill out the form fields and press "Run Model Inference" to visual analytics metrics.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
