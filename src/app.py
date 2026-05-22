@@ -55,4 +55,4 @@ def prediction_system():
     return render_template('prediction.html', result=result, form=form_data)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False)
