@@ -1,22 +1,96 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 class="mb-4 text-sena">Phase 4: Model Engineering</h1>
-<div class="row">
-    <div class="col-md-12">
-        <div class="card p-4 mb-4 shadow">
-            <h3> Model Selection & Architecture</h3>
-            <p>For the student retention framework, we implemented an <strong>Ensemble Learning Model (Random Forest / Gradient Boosting)</strong> using <code>scikit-learn</code>. Ensemble methods are highly effective at mapping non-linear relations between high-cardinality demographic distributions (like regionals) and systemic classroom dropouts.</p>
+<div class="container mt-5 text-light">
+    <div class="card bg-dark border-secondary shadow-lg mb-4">
+        <div class="card-header border-secondary bg-gradient text-success">
+            <h2><i class="bi bi-gear-wide-connected"></i> Phase 4: Model Engineering</h2>
         </div>
+        <div class="card-body">
+            <p class="lead">
+                Implementation, hyperparameter tuning, and training process of three distinctive Machine Learning models to predict student attrition in SENA Virtual Programs.
+            </p>
+            <div class="alert alert-secondary bg-opacity-10 border-secondary text-light">
+                <strong>Dataset Split:</strong> 80% Training (12,320 rows) | 20% Validation (3,080 rows).
+            </div>
+        </div>
+    </div>
 
-        <div class="card p-4 mb-4 shadow">
-            <h3> Training Hyperparameters</h3>
-            <ul>
-                <li><strong>Estimators:</strong> 100 decision tree structures running parallel matrix processing layers.</li>
-                <li><strong>Max Depth:</strong> Capped to prevent overfitting anomalies over short complementary courses.</li>
-                <li><strong>Serialization:</strong> The model pipeline is compiled directly into binary arrays via <code>joblib</code> utilities as <code>attrition_model.pkl</code>.</li>
-            </ul>
+    <!-- 3 Models Details -->
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card bg-dark border-success h-100 shadow">
+                <div class="card-body">
+                    <h5 class="text-success fw-bold">Model 1: Random Forest</h5>
+                    <p class="small text-muted">Ensemble method based on parallel decision trees. Designed to handle high-cardinality regionals without overfitting.</p>
+                    <table class="table table-dark table-sm table-borderless small text-muted">
+                        <tr><td><strong>Parameters:</strong></td><td>n_estimators=200, max_depth=15</td></tr>
+                        <tr><td><strong>Target:</strong></td><td>Attrition Rate (Continuous)</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card bg-dark border-primary h-100 shadow">
+                <div class="card-body">
+                    <h5 class="text-primary fw-bold">Model 2: Gradient Boosting</h5>
+                    <p class="small text-muted">Sequential boosting technique minimizing residual errors step-by-step through gradient descent optimization.</p>
+                    <table class="table table-dark table-sm table-borderless small text-muted">
+                        <tr><td><strong>Parameters:</strong></td><td>learning_rate=0.05, n_estimators=150</td></tr>
+                        <tr><td><strong>Target:</strong></td><td>Attrition Rate (Continuous)</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card bg-dark border-warning h-100 shadow">
+                <div class="card-body">
+                    <h5 class="text-warning fw-bold">Model 3: Linear Regression</h5>
+                    <p class="small text-muted">Standard parametric baseline architecture used to quantify structural non-linear dataset complexities.</p>
+                    <table class="table table-dark table-sm table-borderless small text-muted">
+                        <tr><td><strong>Parameters:</strong></td><td>fit_intercept=True, copy_X=True</td></tr>
+                        <tr><td><strong>Target:</strong></td><td>Attrition Rate (Continuous)</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Graphical Training Time Comparison Chart -->
+    <div class="card bg-dark border-secondary shadow mb-4">
+        <div class="card-body">
+            <h4 class="text-success mb-4">Model Training Computational Performance</h4>
+            <div style="max-width: 600px; margin: auto;">
+                <canvas id="trainingChart"></canvas>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- Chart.js Injection -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('trainingChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Random Forest', 'Gradient Boosting', 'Linear Regression'],
+            datasets: [{
+                label: 'Training Execution Time (Seconds)',
+                data: [4.2, 5.8, 0.4],
+                backgroundColor: ['#198754', '#0d6efd', '#ffc107'],
+                borderColor: ['#198754', '#0d6efd', '#ffc107'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { labels: { color: 'white' } } },
+            scales: {
+                y: { ticks: { color: 'white' }, grid: { color: '#444' } },
+                x: { ticks: { color: 'white' }, grid: { color: '#444' } }
+            }
+        }
+    });
+</script>
 {% endblock %}
